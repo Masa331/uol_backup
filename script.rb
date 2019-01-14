@@ -1,4 +1,5 @@
 require 'bundler/inline'
+require 'open-uri'
 
 gemfile do
   source 'https://rubygems.org'
@@ -108,4 +109,44 @@ UolApi.subdomain = 'test'
 UolApi.encoded_token = '__token__' # <- already base64 encoded token with email as per api docs
 
 ### 2) Do your stuff
-# eg. File.open('sales_invoices.json', 'wb') { |f| f.write UolApi.collect('sales_invoices').to_json }
+## eg. collect and save one specific endpoint as json:
+# File.open('sales_invoices.json', 'wb') { |f| f.write UolApi.collect('sales_invoices').to_json }
+
+## or collect most of important endpoints:
+# endpoints = [
+#   'sales_invoices',
+#   'purchase_invoices',
+#
+#   'petty_cash_incomes',
+#   'petty_cash_disburstments',
+#
+#   'retails',
+#
+#   'sales_orders',
+#   'purchase_orders',
+#
+#   'contacts',
+#   'products',
+#   'contracts',
+#   'petty_cashes',
+#   'my_bank_accounts',
+#   'contact_bank_accounts',
+#   'departments'
+# ]
+# endpoints.each do |endpoint|
+#   File.open("#{endpoint}.json", 'wb') { |f| f.write UolApi.collect(endpoint).to_json }
+# end
+
+## or download all uploaded documents with their's originals
+# uploaded_documents = UolApi.collect('uploaded_documents')
+# File.open('uploaded_documents.json', 'wb') { |f| f.write uploaded_documents.to_json }
+# uploaded_documents.each do |document|
+#   uri = URI(document['file'])
+#   file_name = uri.path.split('/').last
+#
+#   open(document['file']) do |content|
+#     File.open(file_name, 'wb') { |f| f.write content.read }
+#   end
+# end
+
+p 'cool!'
