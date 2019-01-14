@@ -139,13 +139,18 @@ UolApi.encoded_token = '__token__' # <- already base64 encoded token with email 
 
 ## or download all uploaded documents with their's originals
 # uploaded_documents = UolApi.collect('uploaded_documents')
+# with_pairings = uploaded_documents.map do |doc|
+#   id = doc['id']
+#   UolApi.get("uploaded_documents/#{id}/pairings").parsed
+# end
+# File.open('uploaded_documents_with_pairings.json', 'wb') { |f| f.write with_pairings.to_json }
 # File.open('uploaded_documents.json', 'wb') { |f| f.write uploaded_documents.to_json }
 # uploaded_documents.each do |document|
 #   uri = URI(document['file'])
 #   file_name = uri.path.split('/').last
 #
 #   open(document['file']) do |content|
-#     File.open(file_name, 'wb') { |f| f.write content.read }
+#     File.open("temp/#{file_name}", 'wb') { |f| f.write content.read }
 #   end
 # end
 
